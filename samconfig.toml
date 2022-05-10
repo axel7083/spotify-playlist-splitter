@@ -1,0 +1,12 @@
+version = 0.1
+[default]
+[default.deploy]
+[default.deploy.parameters]
+stack_name = "aws-nodejs-rest-service"
+s3_bucket = "aws-sam-cli-managed-default-samclisourcebucket-2epf14tnni2"
+s3_prefix = "aws-nodejs-rest-service"
+region = "eu-west-3"
+profile = "dev"
+confirm_changeset = true
+capabilities = "CAPABILITY_IAM"
+image_repositories = ["HelloWorldFunction=273509275056.dkr.ecr.us-east-2.amazonaws.com/awsnodejsrestservicef805b8a9/helloworldfunction19d43fc4repo"]

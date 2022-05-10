@@ -1,0 +1,61 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: >
+  aws-nodejs-rest-service
+  Sample SAM Template for aws-nodejs-rest-service
+  
+Globals:
+  Function:
+    Timeout: 3
+
+Resources:
+  SpotifyPlaylistSplitterFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: spotify-playlist-splitter/
+      Handler: app.lambda_handler
+      Runtime: python3.9
+      Architectures:
+        - x86_64
+      Policies:
+        - AWSSecretsManagerGetSecretValuePolicy:
+            SecretArn: !Sub "arn:aws:secretsmanager:${AWS::Region}:${AWS::AccountId}:secret:SpotifyCredentials-rVFK6I"
+        - CloudFormationDescribeStacksPolicy:
+            SecretArn: !Sub "arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${AWS::StackName}"
+      Environment:
+        Variables:
+          AWS_STACK_NAME: !Sub "${AWS::StackName}"
+      Events:
+        Root:
+          Type: Api
+          Properties:
+            Path: /api
+            Method: get
+        AuthCallback:
+          Type: Api
+          Properties:
+            Path: /api/callback
+            Method: get
+        Auth:
+          Type: Api
+          Properties:
+            Path: /api/auth
+            Method: get
+        Profile:
+          Type: Api
+          Properties:
+            Path: /api/profile
+            Method: get
+
+
+
+Outputs:
+  SpotifyPlaylistSplitterApi:
+    Description: "API Gateway endpoint URL for Prod stage for Hello World function"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/api/"
+  SpotifyPlaylistSplitterFunction:
+    Description: "SpotifyPlaylistSplitter Lambda Function ARN"
+    Value: !GetAtt SpotifyPlaylistSplitterFunction.Arn
+  SpotifyPlaylistSplitterIamRole:
+    Description: "Implicit IAM Role created for Hello World function"
+    Value: !GetAtt SpotifyPlaylistSplitterFunctionRole.Arn
