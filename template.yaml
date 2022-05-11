@@ -26,11 +26,6 @@ Resources:
         Variables:
           AWS_STACK_NAME: !Sub "${AWS::StackName}"
       Events:
-        Root:
-          Type: Api
-          Properties:
-            Path: /api
-            Method: get
         AuthCallback:
           Type: Api
           Properties:
