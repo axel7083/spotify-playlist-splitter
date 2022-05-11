@@ -17,4 +17,8 @@ Sadly it appears we cannot put a different timeout on different events for the A
 
 To use the `/api/split-playlist` endpoint, we need to change the default timeout (Put 20000).
 
+# Secrets management
 
+In order to use this function, you need to create an AWS Secret, with 2 keys value `id` and `secret`, corresponding to your Spotify Application credentials.
+
+Once it is created and deployed on the same AWS::Region as your function, change in `template.yaml` the `AWSSecretsManagerGetSecretValuePolicy` arn.
