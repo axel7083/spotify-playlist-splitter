@@ -5,7 +5,12 @@ from botocore.exceptions import ClientError
 
 
 def get_secret(secret_name: str, region_name: str = environ['AWS_REGION']) -> str:
-
+    """
+    This function will fetch a secret in AWS
+    :param secret_name: The secret name
+    :param region_name: The region where the secret is stored
+    :return: The secret as a str
+    """
     # Create a Secrets Manager client
     session = boto3.session.Session()
     client = session.client(
